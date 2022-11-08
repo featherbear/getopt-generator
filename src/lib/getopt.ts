@@ -64,7 +64,7 @@ function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTex
 
         let flags: string[] = []
         if (isShortOption(option)) flags.push("-" + option.shortFlag)
-        if (isLongOptions(option)) flags.push("-" + option.longFlag)
+        if (isLongOptions(option)) flags.push("--" + option.longFlag)
         let flagString = flags.map(s => {
             let argString = ""
             switch (option.argument) {
