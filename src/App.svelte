@@ -2,6 +2,7 @@
   import svelteLogo from "./assets/svelte.svg";
   import { generateShort, withOptions } from "./lib/getopt";
   import { ArgumentType, type OptionSet } from "./lib/getopt.type";
+  import CodeOutput from "./lib/ui/CodeOutput.svelte";
   import OptionView from "./lib/ui/OptionView.svelte";
 
   let data: OptionSet = [
@@ -34,24 +35,29 @@
 
   <OptionView bind:data />
 
-  <div class="form-control">
-    <label class="input-group input-group-vertical">
-      <span><pre>const char *optstring</pre></span>
-      <input
-        type="text"
-        placeholder="Add options to see optstring"
-        class="input input-bordered"
-        value={withOptions(data).generateShort()}
-      />
-    </label>
-  </div>
+  <div class="divider" />
 
-  <div class="mockup-code">
-    <pre data-prefix="$"><code>cat helpfile.txt</code></pre>
-    <pre />
-    {#each withOptions(data).generateHelpText({ outputAsArray: true }) as line}
-      <pre data-prefix=""><code>{line}</code></pre>
-    {/each}
+  <div class="flex w-full">
+    <div class="h-20 flex-grow place-items-center">
+      <div class="form-control">
+        <label class="input-group input-group-vertical">
+          <span><pre>const char *optstring</pre></span>
+          <input
+            type="text"
+            placeholder="Add options to see optstring"
+            class="input input-bordered"
+            value={withOptions(data).generateShort()}
+          />
+        </label>
+      </div>
+    </div>
+    <div class="divider divider-horizontal" />
+    <div class="flex-grow place-items-center">
+      <CodeOutput
+        command="cat helptext"
+        lines={withOptions(data).generateHelpText({ outputAsArray: true })}
+      />
+    </div>
   </div>
 
   <!--  -->

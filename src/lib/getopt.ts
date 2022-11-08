@@ -55,7 +55,7 @@ export type HelpTextGeneratorOptions = {
 
 function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTextGeneratorOptions> & { outputAsArray: true }): string[]
 function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTextGeneratorOptions>): string
-function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTextGeneratorOptions>): string | string[] {
+function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTextGeneratorOptions>) {
     let result = options.flatMap((option) => {
 
         let description = option.description ? (typeof option.description === 'string' ? [option.description] : option.description) : []
@@ -95,11 +95,18 @@ function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTex
     return generatorOptions?.outputAsArray ? result : result.join(generatorOptions?.lineSeparator ?? "\n")
 }
 
+
 export function withOptions(options: OptionSet) {
+
+    interface _internal_HelpTextOverload {
+        (param?: Partial<HelpTextGeneratorOptions> & { outputAsArray: true }): string[]
+        (param?: Partial<HelpTextGeneratorOptions>): string
+    }
+    
     return {
         generateShort: () => generateShort(options),
         generateLong: () => generateLong(options),
-        generateHelpText: (generatorOptions?: Parameters<typeof generateHelpText>[1]) => generateHelpText(options, generatorOptions),
+        generateHelpText: <_internal_HelpTextOverload>((generatorOptions) => generateHelpText(options, generatorOptions)),
         get data() { return options },
     }
 }
