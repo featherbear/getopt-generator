@@ -1,30 +1,61 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import svelteLogo from "./assets/svelte.svg";
+  import { generateShort, withOptions } from "./lib/getopt";
+  import { ArgumentType, type OptionSet } from "./lib/getopt.type";
+  import OptionView from "./lib/ui/OptionView.svelte";
+
+  let data: OptionSet = [
+    {
+      longFlag: "reee",
+      description: "Description",
+      argument: ArgumentType.REQUIRED,
+      argumentPlaceholder: "data",
+    },
+    { shortFlag: "b", description: ["beeeee", "movie?"] },
+  ];
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
   <h1>Vite + Svelte</h1>
 
-  <div class="card">
-    <Counter />
+  <div class="card" />
+
+  <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
+  <div class="card w-96 bg-base-100 shadow-xl">
+    <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+    <div class="card-body">
+      <h2 class="card-title">Shoes!</h2>
+      <p>If a dog chews shoes whose shoes does he choose?</p>
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary">Buy Now</button>
+      </div>
+    </div>
   </div>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
+  <OptionView bind:data />
 
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <div class="form-control">
+    <label class="input-group input-group-vertical">
+      <span><pre>const char *optstring</pre></span>
+      <input
+        type="text"
+        placeholder="Add options to see optstring"
+        class="input input-bordered"
+        value={withOptions(data).generateShort()}
+      />
+    </label>
+  </div>
+
+  <div class="mockup-code">
+    <pre data-prefix="$"><code>cat helpfile.txt</code></pre>
+    <pre />
+    {#each withOptions(data).generateHelpText({ outputAsArray: true }) as line}
+      <pre data-prefix=""><code>{line}</code></pre>
+    {/each}
+  </div>
+
+  <!--  -->
+  <button class="btn">Button</button>
 </main>
 
 <style>
