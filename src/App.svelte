@@ -14,11 +14,13 @@
     },
     { shortFlag: "b", description: ["beeeee", "movie?"] },
   ];
+
+  $: console.log(withOptions(data).generateLong());
 </script>
 
 <main>
-  <h1>Vite + Svelte</h1>
-
+  <h1>getopt generator</h1>
+  <!-- 
   <div class="card" />
 
   <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
@@ -31,7 +33,7 @@
         <button class="btn btn-primary">Buy Now</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <OptionView bind:data />
 
@@ -39,16 +41,31 @@
 
   <div class="flex w-full">
     <div class="h-20 flex-grow place-items-center">
-      <div class="form-control">
-        <label class="input-group input-group-vertical">
-          <span><pre>const char *optstring</pre></span>
-          <input
-            type="text"
-            placeholder="Add options to see optstring"
-            class="input input-bordered"
-            value={withOptions(data).generateShort()}
-          />
-        </label>
+      <div class="flex flex-col w-full border-opacity-50">
+        <div class="form-control">
+          <label class="input-group input-group-vertical">
+            <span><pre>const char *optstring</pre></span>
+            <input
+              type="text"
+              placeholder="Add options to see optstring"
+              class="input input-bordered"
+              value={withOptions(data).generateShort()}
+              readonly
+            />
+          </label>
+        </div>
+        <div class="divider" />
+        <div class="form-control">
+          <label class="input-group input-group-vertical">
+            <span><pre>struct option[]</pre></span>
+            <textarea
+              placeholder="Add options to see optstring"
+              class="input input-bordered"
+              value={withOptions(data).generateLong()}
+              readonly
+            />
+          </label>
+        </div>
       </div>
     </div>
     <div class="divider divider-horizontal" />
@@ -59,24 +76,7 @@
       />
     </div>
   </div>
-
-  <!--  -->
-  <button class="btn">Button</button>
 </main>
 
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
+<style lang="scss">
 </style>

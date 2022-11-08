@@ -36,12 +36,31 @@ export const generateShort = (options: OptionSet) => options.
  * @param options 
  * @returns 
  */
-export const generateLong = (options: OptionSet) => options.
-    filter(isLongOptions).
-    reduce(
-        (prev, option) => {
-            throw new Error("Not implemented")
-        }, "")
+export const generateLong = (options: OptionSet) => {
+    type ArgumentString = "no_argument" | "optional_argument" | "required_argument"
+
+    let structEntries = options.filter(isLongOptions).map(option => {
+        let argumentStr: ArgumentString = 'no_argument'
+        switch (option.argument) {
+            case ArgumentType.OPTIONAL:
+                argumentStr = 'optional_argument'
+                break
+            case ArgumentType.REQUIRED:
+                argumentStr = 'required_argument'
+                break
+            default:
+                break
+        }
+
+        return `{"${option.longFlag}", ${argumentStr}, 0, ${option.shortFlag ? `'${option.shortFlag}'` : 0}}`
+    }).concat("{ 0, 0, 0, 0 }")
+
+    return [
+        "{",
+        structEntries.map(s => "\t" + s).join(",\n"),
+        "}"
+    ].join("\n")
+}
 
 export type HelpTextGeneratorOptions = {
     linePrefix: string
@@ -83,9 +102,10 @@ function generateHelpText(options: OptionSet, generatorOptions?: Partial<HelpTex
         lines.push(flagString)
 
         if (description.length > 0) {
-            let space = lines[0].length + 3
-            lines[0] += ' - ' + description[0]
+            lines[0] += ' - '
+            let space = lines[0].length
 
+            lines[0] += description[0]
             description.slice(1).forEach(s => lines.push(Array(space + 1).join(" ") + s))
         }
 
@@ -102,7 +122,7 @@ export function withOptions(options: OptionSet) {
         (param?: Partial<HelpTextGeneratorOptions> & { outputAsArray: true }): string[]
         (param?: Partial<HelpTextGeneratorOptions>): string
     }
-    
+
     return {
         generateShort: () => generateShort(options),
         generateLong: () => generateLong(options),
