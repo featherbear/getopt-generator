@@ -1,12 +1,5 @@
 # Getopt generator
 
-
----
-
-# EDIT
-
-> Ohhh no one made one because it's too trivial
-
 ---
 
 In the rough 13 seconds of me Googling for an online ["getopt generator"](https://www.google.com/search?q=getopt+generator) or ["optstring generator"](https://www.google.com/search?q=optstring+generator) I didn't find one.
