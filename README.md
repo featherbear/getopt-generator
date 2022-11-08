@@ -1,47 +1,50 @@
-# Svelte + TS + Vite
+# Getopt generator
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+# EDIT
 
-## Need an official Svelte framework?
+> Ohhh no one made one because it's too trivial
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+---
 
-## Technical considerations
+In the rough 13 seconds of me Googling for an online ["getopt generator"](https://www.google.com/search?q=getopt+generator) or ["optstring generator"](https://www.google.com/search?q=optstring+generator) I didn't find one.
 
-**Why use this over SvelteKit?**
+Makes sense, web devs don't know how to write C code. /s
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+---
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+## `getopt`...?
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+```
+The getopt() function parses the command-line arguments.  Its
+       arguments argc and argv are the argument count and array as
+       passed to the main() function on program invocation.  An element
+       of argv that starts with '-' (and is not exactly "-" or "--") is
+       an option element.  The characters of this element (aside from
+       the initial '-') are option characters.  If getopt() is called
+       repeatedly, it returns successively each of the option characters
+       from each of the option elements.
+```
 
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
+Source: https://man7.org/linux/man-pages/man3/getopt.3.html
 
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
+---
 
-**Why include `.vscode/extensions.json`?**
+## `optstring` tldr
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+* `x` - Specify `x`
+* `x:` - Specify `x` with required argument
+* `x::` - Specify `x` with optional argument
 
-**Why enable `allowJs` in the TS template?**
+## longopt
 
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```c
+struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+};
 ```
