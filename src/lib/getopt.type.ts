@@ -18,7 +18,7 @@ type OptionInclusion = (ShortOption & { longFlag?: never })
 
 type ArgumentInclusion = ({ argument: ArgumentType.OPTIONAL | ArgumentType.REQUIRED, argumentPlaceholder?: string } | Partial<{ argument: ArgumentType.NONE, argumentPlaceholder: never }>)
 
-type Option = {
+export type Option = {
     note?: string
     description?: string | string[]
 }

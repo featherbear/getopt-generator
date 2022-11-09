@@ -1,14 +1,39 @@
 <script lang="ts">
     import { ArgumentType, type OptionSet } from "../getopt.type";
+    import DeleteIconButton from "./DeleteIconButton.svelte";
 
     export let data: OptionSet;
     export let index: number;
 
-    let descriptionText: string = Array.isArray(data[index].description) ? (<string[]>data[index].description).join("\n") : <string>data[index].description
-    $: data[index].description = descriptionText.split("\n");
+    let descriptionText: string = Array.isArray(data[index].description)
+        ? (<string[]>data[index].description).join("\n")
+        : <string>data[index].description;
+    $: data[index].description = descriptionText?.split("\n");
+
+    function handleMoveUp() {
+        data = [
+            ...data.slice(0, index - 1),
+            data[index],
+            data[index - 1],
+            ...data.slice(index + 1),
+        ];
+    }
+
+    function handleMoveDown() {
+        data = [
+            ...data.slice(0, index),
+            data[index + 1],
+            data[index],
+            ...data.slice(index + 2),
+        ];
+    }
+
+    function handleDelete() {
+        data = [...data.slice(0, index), ...data.slice(index + 1)];
+    }
 
     let timeout: NodeJS.Timeout;
-    function handleCheckboxClick(evt: Event) {
+    function handleEnableArgument(evt: Event) {
         if (timeout) {
             evt.preventDefault();
             return;
@@ -22,6 +47,16 @@
 </script>
 
 <tr>
+    <td>
+        <div>
+            {#if index != 0}
+                <button class="btn btn-outline place-content-center" on:click={handleMoveUp}>⌃</button>
+            {/if}
+            {#if data.length != index + 1}
+                <button class="btn btn-outline place-content-center" on:click={handleMoveDown}>⌄</button>
+            {/if}
+        </div>
+    </td>
     <td
         ><input
             type="text"
@@ -64,7 +99,7 @@
             <input
                 type="checkbox"
                 class="toggle"
-                on:click={handleCheckboxClick}
+                on:click={handleEnableArgument}
             />
         {/if}</td
     >
@@ -75,4 +110,7 @@
             bind:value={descriptionText}
         /></td
     >
+    <td>
+        <DeleteIconButton on:click={handleDelete} />
+    </td>
 </tr>
