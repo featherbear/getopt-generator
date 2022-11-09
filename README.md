@@ -1,4 +1,4 @@
-# Getopt generator
+# getopt generator
 
 ---
 
