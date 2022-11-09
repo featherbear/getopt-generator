@@ -37,9 +37,12 @@ export const generateShort = (options: OptionSet) => options.
  * @returns 
  */
 export const generateLong = (options: OptionSet) => {
+    options = options.filter(isLongOptions)
+    if (options.length == 0) return null
+
     type ArgumentString = "no_argument" | "optional_argument" | "required_argument"
 
-    let structEntries = options.filter(isLongOptions).map(option => {
+    let structEntries = options.map(option => {
         let argumentStr: ArgumentString = 'no_argument'
         switch (option.argument) {
             case ArgumentType.OPTIONAL:

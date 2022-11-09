@@ -58,7 +58,7 @@
             <span><pre>const char *optstring</pre></span>
             <input
               type="text"
-              placeholder="Add options to see optstring"
+              placeholder="Add short options to see optstring"
               class="input input-bordered"
               value={withOptions(data).generateShort()}
               readonly
@@ -70,7 +70,7 @@
           <label class="input-group input-group-vertical">
             <span><pre>struct option[]</pre></span>
             <textarea
-              placeholder="Add options to see optstring"
+              placeholder="Add long options to see the generated options struct"
               class="input input-bordered"
               value={withOptions(data).generateLong()}
               readonly
