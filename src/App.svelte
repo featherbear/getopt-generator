@@ -2,20 +2,38 @@
   import svelteLogo from "./assets/svelte.svg";
   import { generateShort, withOptions } from "./lib/getopt";
   import { ArgumentType, type OptionSet } from "./lib/getopt.type";
+  import { deserialise, serialise } from "./lib/serialisation";
   import CodeOutput from "./lib/ui/CodeOutput.svelte";
   import OptionView from "./lib/ui/OptionView.svelte";
 
-  let data: OptionSet = [
-    {
-      longFlag: "reee",
-      description: "Description",
-      argument: ArgumentType.REQUIRED,
-      argumentPlaceholder: "data",
-    },
-    { shortFlag: "b", description: ["beeeee", "movie?"] },
-  ];
+  let data: OptionSet = [];
 
-  $: console.log(withOptions(data).generateLong());
+  let stringParam = new URLSearchParams(location.search).get("s");
+  if (stringParam) {
+    try {
+      data = deserialise<OptionSet>(stringParam);
+    } catch (e) {
+      console.error("Could not load URL");
+    }
+  }
+
+  if (data.length == 0) {
+    data = [
+      {
+        longFlag: "reee",
+        description: "Description",
+        argument: ArgumentType.REQUIRED,
+        argumentPlaceholder: "data",
+      },
+      { shortFlag: "b", description: ["beeeee", "movie?"] },
+    ];
+  }
+
+  let link: string;
+  $: link =
+    location.href.slice(0, location.href.indexOf(location.search)) +
+    "?s=" +
+    serialise(data);
 </script>
 
 <main>
@@ -78,5 +96,37 @@
   </div>
 </main>
 
+<footer class="footer footer-center p-4 bg-base-300 text-base-content">
+  <div>
+    <p>
+      <a
+        href="#"
+        on:click={() => {
+          navigator.clipboard.writeText(link).then(
+            () => {
+              alert("Link copied");
+            },
+            () => {
+              alert("Failed to copy link");
+            }
+          );
+        }}>{link}</a
+      >
+    </p>
+  </div>
+</footer>
+
 <style lang="scss">
+  main {
+    flex: 1;
+  }
+
+  footer {
+    > div > p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
 </style>

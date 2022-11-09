@@ -31,10 +31,21 @@
 
 #app {
   max-width: 1280px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
   margin: 0 auto;
   padding: 2rem;
+  padding-bottom: 0;
   text-align: center;
-} 
+
+
+  display: flex;
+  flex-direction: column;
+}
 
 h1 {
   font-size: 3.2em;
