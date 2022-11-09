@@ -32,10 +32,7 @@
 
   let link: string;
   $: {
-    link =
-      location.href.slice(0, location.href.indexOf(location.search)) +
-      "?s=" +
-      serialise(data);
+    link = [window.location.href.split("?")[0], "?s=", serialise(data)].join("");
 
     if (longOptElem) {
       const padding = 20;
