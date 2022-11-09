@@ -1,6 +1,5 @@
 <script lang="ts">
-  import svelteLogo from "./assets/svelte.svg";
-  import { generateShort, withOptions } from "./lib/getopt";
+  import { withOptions } from "./lib/getopt";
   import { ArgumentType, type OptionSet } from "./lib/getopt.type";
   import { deserialise, serialise } from "./lib/serialisation";
   import CodeOutput from "./lib/ui/CodeOutput.svelte";
@@ -37,9 +36,11 @@
       location.href.slice(0, location.href.indexOf(location.search)) +
       "?s=" +
       serialise(data);
+
     if (longOptElem) {
       const padding = 20;
       longOptElem.style.paddingTop = padding + "px";
+      longOptElem.style.height = "auto";
       longOptElem.style.height = longOptElem.scrollHeight + padding + "px";
     }
   }
