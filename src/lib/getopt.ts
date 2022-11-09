@@ -17,10 +17,10 @@ export const generateShort = (options: OptionSet) => options.
             let suffix = ""
             switch (option.argument) {
                 case ArgumentType.OPTIONAL:
-                    suffix = ":"
+                    suffix = "::"
                     break;
                 case ArgumentType.REQUIRED:
-                    suffix = "::"
+                    suffix = ":"
                     break
                 default:
                     break
