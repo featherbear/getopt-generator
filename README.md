@@ -1,11 +1,4 @@
-# Getopt generator
-
-
----
-
-# EDIT
-
-> Ohhh no one made one because it's too trivial
+# getopt generator
 
 ---
 
