@@ -8,6 +8,8 @@
 
   let data: OptionSet = [];
 
+  let longOptElem: HTMLTextAreaElement;
+
   let stringParam = new URLSearchParams(location.search).get("s");
   if (stringParam) {
     try {
@@ -30,10 +32,17 @@
   }
 
   let link: string;
-  $: link =
-    location.href.slice(0, location.href.indexOf(location.search)) +
-    "?s=" +
-    serialise(data);
+  $: {
+    link =
+      location.href.slice(0, location.href.indexOf(location.search)) +
+      "?s=" +
+      serialise(data);
+    if (longOptElem) {
+      const padding = 20;
+      longOptElem.style.paddingTop = padding + "px";
+      longOptElem.style.height = longOptElem.scrollHeight + padding + "px";
+    }
+  }
 </script>
 
 <main>
@@ -67,6 +76,8 @@
               class="input input-bordered"
               value={withOptions(data).generateLong()}
               readonly
+              style="resize: none"
+              bind:this={longOptElem}
             />
           </label>
         </div>
